@@ -9,12 +9,13 @@
 <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
+<%@ include file="header.jsp" %>
 <h1>Clients</h1>
 <hr>
 <a href="/client/add">Add new</a><br><br>
 <table>
 	<c:forEach items="${clients}" var="client">
-		<tr><td>${client.code}</td><td>${client.name}</td><td><a href="client/edit?id=${client.id}">Update</a> | <a href="client/delete?id=${client.id}">Delete</a></td></tr>
+		<tr><td>${client.code}</td><td>${client.name}</td><td><a href="/client/edit?id=${client.id}">Update</a> | <a href="/client/delete?id=${client.id}">Delete</a></td></tr>
 	</c:forEach>
 </table>
 </body>

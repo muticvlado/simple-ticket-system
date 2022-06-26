@@ -11,18 +11,19 @@
 <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
+<%@ include file="header.jsp" %>
 <h1>Client</h1>
 <hr>
 	<table>
 		<form:form action="save" modelAttribute="client">
 			<form:hidden path="id" />
 			<tr>
-				<td><form:label path="code" /></td>
+				<td><form:label path="code" />Code</td>
 				<td><form:input path="code" /></td>
 				<td><form:errors path="code" cssStyle="color: red"/></td>
 			</tr>
 			<tr>
-				<td><form:label path="name" /></td>
+				<td><form:label path="name" />Name</td>
 				<td><form:input path="name" /></td>
 				<td><form:errors path="name" cssStyle="color: red"/></td>
 			</tr>

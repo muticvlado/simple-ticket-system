@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table
+@Table(name="users")
 public class User {
 
 	@Column
@@ -18,13 +18,16 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
+	@NotBlank(message = "Korisnicko ime ne sme biti prazno.")
 	@Email(message = "Korisnicko ime mora biti email adresa.")
 	private String username;
 	@Column
 	@NotBlank(message = "Password mora biti unet.")
 	private String password;
 	@Column
-	private boolean enable;
+	private boolean enabled;
+	@Column
+	private String role;
 	
 	public User() {
 	}
@@ -33,7 +36,7 @@ public class User {
 			@NotBlank(message = "Password mora biti unet.") String password, boolean enable) {
 		this.username = username;
 		this.password = password;
-		this.enable = enable;
+		this.enabled = enable;
 	}
 
 	public User(Long id, @Email(message = "Korisnicko ime mora biti email adresa.") String username,
@@ -41,7 +44,7 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.enable = enable;
+		this.enabled = enable;
 	}
 
 	public Long getId() {
@@ -68,11 +71,20 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isEnable() {
-		return enable;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setEnable(boolean enable) {
-		this.enable = enable;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 }

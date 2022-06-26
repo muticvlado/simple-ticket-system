@@ -11,34 +11,32 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import vlado.model.Client;
 import vlado.service.ClientService;
 
 @Controller
-@RequestMapping("/client")
 public class ClientController {
 	
 	@Autowired
 	private ClientService clientService;
 	
-	@GetMapping("")
+	@GetMapping("/client")
 	public String getAllClients(Model model) {
 		
 		model.addAttribute("clients", clientService.findAll());
 		return "client-list";		
 	}
 	
-	@GetMapping("/add")
+	@GetMapping("/client/add")
 	public String getClientForm(Model model) {
 		
 		model.addAttribute("client", new Client());
 		return "client-form";
 	}
 	
-	@PostMapping("/save")
+	@PostMapping("/client/save")
 	public String saveClient(@Valid @ModelAttribute Client client, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors())
@@ -48,14 +46,14 @@ public class ClientController {
 		return "redirect:/client";
 	}
 	
-	@GetMapping("/edit")
+	@GetMapping("/client/edit")
 	public String getUpdateClientForm(@RequestParam Long id, Model model) {
 		
 		model.addAttribute("client", clientService.findById(id));
 		return "client-form";
 	}
 	
-	@GetMapping("/delete")
+	@GetMapping("/client/delete")
 	public String getDeleteClientForm(@RequestParam Long id, Model model) {		
 		
 		Optional<Client> client = clientService.findById(id);
@@ -63,7 +61,7 @@ public class ClientController {
 		return "client-delete";
 	}
 	
-	@GetMapping("/delete-ok")
+	@GetMapping("/client/delete-ok")
 	public String delete(@RequestParam Long id) {
 		
 		clientService.deleteById(id);

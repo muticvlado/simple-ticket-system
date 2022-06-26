@@ -15,10 +15,11 @@
 <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
+<%@ include file="header.jsp" %>
 <h1>Tickets</h1>
 <hr>
 <a href="/ticket/add">Add new</a><br><br>
-<table>
+<table id="mytable">
 	<tr><th>Broj tiketa</th><th>Vreme</th><th>Pumpa</th><th>Naslov tiketa</th><th>Korisnik</th><th>Beleske</th><th>Status</th></tr>
 	<c:forEach items="${tickets}" var="ticket">
 		<tr>

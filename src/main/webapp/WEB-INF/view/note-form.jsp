@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+<%@ include file="header.jsp" %>
 	<h1>Note</h1>
 	<hr>
 	<div class="title">

@@ -1,5 +1,6 @@
 package vlado.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 import javax.validation.Valid;
@@ -11,11 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import vlado.model.Note;
 import vlado.model.Ticket;
+import vlado.model.User;
 import vlado.service.ClientService;
 import vlado.service.NoteService;
 import vlado.service.TicketService;
@@ -41,11 +42,15 @@ public class TicketController {
 	}
 		
 	@GetMapping("/ticket/add")
-	public String getTicketForm(Model model) {
+	public String getTicketForm(Model model, Principal principal) {
 		
-		model.addAttribute("ticket", new Ticket());
+		User user = userService.findByUsername(principal.getName()).get(0);
+		Ticket ticket = new Ticket();
+		ticket.setUser(user);
+		model.addAttribute("ticket", ticket);		
 		model.addAttribute("users", userService.findAll());
 		model.addAttribute("clients", clientService.findAll());
+		model.addAttribute("username", principal.getName());
 		
 		return "ticket-form";
 	}
@@ -61,7 +66,7 @@ public class TicketController {
 		}
 		
 		ticketService.save(ticket);
-		return "redirect:/ticket/";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/ticket/details")
@@ -72,7 +77,7 @@ public class TicketController {
 	}
 	
 	@GetMapping("/ticket/note/close")
-	public String closeTicket(@RequestParam Long id) {
+	public String closeTicket(@RequestParam Long id, Principal principal) {
 		
 		Ticket ticket = ticketService.findById(id).get();
 		ticket.setClose_date_time(LocalDateTime.now());
@@ -81,11 +86,11 @@ public class TicketController {
 		closeNote.setDate_time(LocalDateTime.now());
 		closeNote.setText("TIKET JE ZATVOREN.");
 		closeNote.setTicket(ticket);
-		closeNote.setUser(ticket.getUser());		
+		closeNote.setUser(userService.findByUsername(principal.getName()).get(0));		
 		
 		noteService.save(closeNote);
 		ticketService.save(ticket);
 		
-		return "redirect:/ticket/";	
+		return "redirect:/";	
 	}
 }

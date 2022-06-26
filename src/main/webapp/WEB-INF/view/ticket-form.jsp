@@ -2,24 +2,28 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+<%@ include file="header.jsp" %>
 	<h1>Ticket</h1>
 	<hr>
 	<table>
-		<form:form action="/ticket/save" modelAttribute="ticket">
+		<form:form action="save" modelAttribute="ticket">
 			<form:hidden path="id" />
+			<form:hidden path="user" />
 			<tr>
-				<td>User</td>
-				<td><form:select path="user" items="${users}" itemLabel="username" itemValue="id" cssStyle="width: 100%"/></td>
-			</tr>
+				<td colspan="2">
+					${ticket.user.username} 
+				</td>
+			</tr>			
 			<tr>
 				<td>Client</td>
 				<td>

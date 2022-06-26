@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+<%@ include file="header.jsp" %>
 <h1>Ticket's Details</h1>
 <hr>
 <a href="/ticket/note/add?id=${ticket.id}">Add note</a>
@@ -28,9 +29,15 @@
 	<span>Pumpa: ${ticket.client.name}</span>
 	<hr>
 	<span>Naslov: ${ticket.title}</span>
-	<hr style = " border-top: 3px solid red;">
+	<hr>
 	<span>Prijava: ${ticket.note}</span>
-	<hr style = " border-top: 3px solid red;">
+	<hr>
+	<c:if test="${ticket.close_date_time == null}">
+		<h3 style="color: green">OPEN</h3>
+	</c:if>
+	<c:if test="${ticket.close_date_time != null}">
+		<h3 style="color: red">CLOSE</h3>
+	</c:if>
 </div>
 <h3>Beleske</h3>
 <table>	
@@ -47,7 +54,7 @@
 
 <c:if test="${ticket.noteCount > 0}">
 	<h3>Naknadno</h3>
-	<table>	
+	<table id="mytable">	
 		<c:forEach items="${ticket.notes}" var="note_ex">
 			<c:if test="${ticket.close_date_time < note_ex.date_time}">
 				<tr>

@@ -1,7 +1,5 @@
 package vlado.controller;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,63 +9,62 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import vlado.model.Client;
 import vlado.model.User;
 import vlado.service.UserService;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("")
+	@GetMapping("/user/list")
 	public String getAllUsers(Model model) {
 		
 		model.addAttribute("users", userService.findAll());
 		return "user-list";		
 	}
 	
-	@GetMapping("/add")
-	public String getClientForm(Model model) {
+	@GetMapping("/user/add")
+	public String getUserForm(Model model) {
 		
-		model.addAttribute("client", new Client());
-		return "client-form";
+		model.addAttribute("user", new User());
+		return "user-form";
 	}
 	
-	@PostMapping("/save")
-	public String saveClient(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+	@PostMapping("/user/save")
+	public String saveUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
 		
-		if(bindingResult.hasErrors())
-			return "client-form";
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("user", user);
+			return "user-form";
+		}			
 		
 		userService.save(user);
-		return "redirect:/client";
+		return "redirect:/user/list";
 	}
 	
-	@GetMapping("/edit")
+	@GetMapping("/user/edit")
 	public String getUpdateClientForm(@RequestParam Long id, Model model) {
 		
-		model.addAttribute("client", userService.findById(id));
-		return "client-form";
+		model.addAttribute("user", userService.findById(id));
+		return "user-form";
 	}
 	
-	@GetMapping("/delete")
+	@GetMapping("/user/delete")
 	public String getDeleteClientForm(@RequestParam Long id, Model model) {		
 		
-		Optional<User> client = userService.findById(id);
-		model.addAttribute("client", client.get());
-		return "client-delete";
+		User user = userService.findById(id).get();
+		model.addAttribute("user", user);
+		return "user-delete";
 	}
 	
-	@GetMapping("/delete-ok")
+	@GetMapping("/user/delete-ok")
 	public String delete(@RequestParam Long id) {
 		
 		userService.deleteById(id);
-		return "redirect:/client";
+		return "redirect:/user/list";
 	}
 }

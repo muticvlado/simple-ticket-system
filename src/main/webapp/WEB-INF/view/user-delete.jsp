@@ -12,10 +12,10 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<h1>Client</h1>
+<h1>User</h1>
 <hr>
-<h5>Delete?</h5>	
-<p>${client.id} ${client.code} ${client.name}</p>
-<a href="/client">BACK</a> | <a href="delete-ok?id=${client.id}">YES</a>
+<h3>Delete?</h3>	
+<p>${user.id} ${user.username}</p>
+<a href="/user/list">BACK</a> | <a href="/user/delete-ok?id=${user.id}">YES</a>
 </body>
 </html>
